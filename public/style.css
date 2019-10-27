@@ -1,0 +1,7 @@
+.bd {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 3px solid rgb(241, 241, 241);
+    border-radius: 5px;
+    padding: 20px;
+}
