@@ -23,6 +23,9 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
 	mainPage.submit(req, res);
 });
+router.get('/getDetections', function(req, res) {
+	mainPage.getDetections(res, req);
+});
 
 router.get('/settings', function(req, res) {
     settingsPage.render(req, res);

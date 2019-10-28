@@ -11,6 +11,7 @@ class WSClient {
 
     connected = false;
     streaming = false;
+    detectionsBuffer = [];
 
     constructor() {
         this.config = ConfigUtils.getConfig();
@@ -65,7 +66,7 @@ class WSClient {
     }
 
     open() {
-
+        console.log('Connected');
     }
 
     close() {
@@ -97,7 +98,7 @@ class WSClient {
 
             this.connectCallback();
         } else if(dataObj.type == 'DETECTION') {
-            
+            this.detectionsBuffer.push(dataObj.payload);
         }
     }
 }

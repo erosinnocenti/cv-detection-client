@@ -5,3 +5,12 @@
     border-radius: 5px;
     padding: 20px;
 }
+
+label {
+    font-weight: bold;
+    border-bottom: 1px solid grey;
+}
+
+#drawCanvas {
+    border: 1px solid grey;
+}

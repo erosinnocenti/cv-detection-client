@@ -1,14 +1,16 @@
-<script src="main-script.js"></script>
+<script src='main-script.js'></script>
 
-<div class="container bd">
-    <div class="row">
-        <div class="col">
-            <form method="POST">
+<input type='hidden' id='params' value='{{params}}'>
+
+<div class='container bd'>
+    <div class='row'>
+        <div class='col'>
+            <form method='POST' id='connectForm'>
                 <h5>Stato connessione server</h5>
                 {{message}}<br />
 
                 <input type='hidden' name='action' value='connect'>
-                <button type="submit" class="btn btn-primary">
+                <button type='button' class='btn btn-primary' onclick='toggleConnect("{{connected}}", "{{streaming}}")'>
                     {{#if connected}}
                         Disconnetti
                     {{else}}
@@ -17,17 +19,27 @@
                 </button>
             </form>
             <hr />
-            <form method="POST" id="streamingForm">
+            <form method='POST' id='streamingForm'>
                 <h5>Streaming rilevamenti</h5>
+                <label>Stato</label>
                 {{#if streaming}}
-                    Streaming attivo
+                    <p>Streaming attivo</p>
                 {{else}}
-                    Streaming non attivo
+                    <p>Streaming non attivo</p>
                 {{/if}}
-                <br/>
+                <div id='detectionsContainer' style='display: none'>
+                    <label>Rilevamenti</label>
+                    <p id='detectionsCount'></p>
+                    <label>FPS</label>
+                    <p id='fps'></p>
+                    <label>Rappresentazione grafica</label>
+                    <div>
+                        <canvas id="drawCanvas" width="100" height="100"></canvas>
+                    </div>
+                </div>
 
                 <input type='hidden' name='action'>
-                <button type="button" class="btn btn-primary" onclick="toggleStreaming('{{connected}}', '{{streaming}}')">
+                <button type='button' class='btn btn-primary' onclick='toggleStreaming("{{connected}}", "{{streaming}}")'>
                     {{#if streaming}}
                         Stop streaming
                     {{else}}
@@ -39,20 +51,20 @@
     </div>
 </div>
 
-<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="errorModalTitle">Title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<div class='modal fade' id='errorModal' tabindex='-1' role='dialog' aria-hidden='true'>
+    <div class='modal-dialog' role='document'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h5 class='modal-title' id='errorModalTitle'>Title</h5>
+                <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p id="errorModalContent"></p>
+            <div class='modal-body'>
+                <p id='errorModalContent'></p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            <div class='modal-footer'>
+                <button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
             </div>
         </div>
     </div>

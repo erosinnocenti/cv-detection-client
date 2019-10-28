@@ -1,5 +1,6 @@
 import { ConfigUtils } from '../config/config-utils';
 import { WSClient } from '../ws-client';
+import { env } from '../environment/environment';
 
 class MainPage {
     wsClient = WSClient.getInstance();
@@ -27,10 +28,20 @@ class MainPage {
             config: config,
             message: message,
             streaming: this.wsClient.streaming,
-            connected: this.wsClient.connected
+            connected: this.wsClient.connected,
+            params: null
         }
 
+        params.params = JSON.stringify(params);
+
         res.render('main', params);
+    }
+
+    getDetections(res, req) {
+        const detections = this.wsClient.detectionsBuffer.splice(0, this.wsClient.detectionsBuffer.length);
+
+        const result = JSON.stringify(detections);
+        res.send(result);
     }
 
     submit(req, res) {
