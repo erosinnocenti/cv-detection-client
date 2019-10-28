@@ -1,13 +1,16 @@
 import { ConfigUtils } from "./config/config-utils";
+import { env } from './environment/environment';
 const WebSocket = require('ws');
 
 class WSClient {
     static instance = null;
     
     client = null;
-    connected = false;
-
     lastError = null;
+    uuid = null;
+
+    connected = false;
+    streaming = false;
 
     constructor() {
         this.config = ConfigUtils.getConfig();
@@ -21,41 +24,81 @@ class WSClient {
         return this.instance;
     }
 
-    connect(callback) {
+    connect(connectCallback) {
+        this.connectCallback = connectCallback;
+
         console.log('Connecting to ' + this.config.wsUrl + '...');
         this.client = new WebSocket(this.config.wsUrl);
         
         this.client.on('error', (error) => {
             console.log(error);
-            callback(error);
+
+            if(this.uuid == null) {
+                connectCallback(error);
+            } else {
+                this.connected = false;
+            }
         });
 
-        this.client.on('open', () => { this.open(callback) });
-        this.client.on('ping', this.heartbeat);
-        this.client.on('close', function clear() {
-            clearTimeout(this.pingTimeout);
-        });
-        this.client.on('message', this.messageReceived);
+        this.client.on('open', () => { this.open() });
+        this.client.on('close', () => { this.close() });
+        this.client.on('message', (data) => { this.messageReceived(data) });
     }
 
-    open(callback) {
-        console.log('Connected');
-        callback('Connected');
+    send(message) {
+        if(this.connected == false) {
+            return;
+        }
+
+        if(message.type == 'START_STREAMING') {
+            this.streaming = true;
+        }
+
+        if(message.type == 'STOP_STREAMING') {
+            this.streaming = false;
+        }
+
+        const strMessage = JSON.stringify(message);
+        console.log('Sending: ' + strMessage);
         
-        this.connected = true;
-        this.heartbeat();
+        this.client.send(strMessage);
+    }
+
+    open() {
+
+    }
+
+    close() {
+        console.log('Disconnected');
+    }
+
+    disconnect(disconnectCallback) {
+        if(this.connected == true) {
+            if(this.streaming == true) {
+                this.send({ type: 'STOP_STREAMING' });
+            }
+
+            this.client.close();
+            this.connected = false;
+        }
+
+        disconnectCallback();
     }
 
     messageReceived(data) {
-        console.log(data);    
-    }
- 
-    heartbeat() {
-        clearTimeout(this.pingTimeout);
+        const dataObj = JSON.parse(data);
 
-        this.pingTimeout = setTimeout(() => {
-            this.terminate();
-        }, env.pingInterval + 1000);
+        if(dataObj.type == 'UUID_ASSIGN') {
+            console.log(data);    
+
+            const payload = dataObj.payload;
+            this.uuid = payload.uuid;
+            this.connected = true;
+
+            this.connectCallback();
+        } else if(dataObj.type == 'DETECTION') {
+            
+        }
     }
 }
 

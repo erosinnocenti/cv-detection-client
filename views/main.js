@@ -4,16 +4,29 @@ import { WSClient } from '../ws-client';
 class MainPage {
     wsClient = WSClient.getInstance();
 
-    message = null;
-    
     render(req, res) {
         const config = ConfigUtils.getConfig();
+
+        let message = '';
+        let connectBtnTitle = '';
+        if(this.wsClient.connected == false) {
+            // Client disconnesso
+            message = 'Disconnesso';
+        } else {
+            // Client connesso
+            if(this.wsClient.uuid != null) {
+                message = 'Connesso con ID ' + this.wsClient.uuid;
+            } else {
+                message = 'ID non valido';
+            }
+        }
 
         const params = {
             layout: 'default',
             mainActive: 'active',
             config: config,
-            message: this.message,
+            message: message,
+            streaming: this.wsClient.streaming,
             connected: this.wsClient.connected
         }
 
@@ -21,14 +34,42 @@ class MainPage {
     }
 
     submit(req, res) {
-        if(req.body.connect !== undefined) {
+        if(req.body.action == 'connect') {
             // Connessione WS
-            this.wsClient.connect((message) => {
-                this.message = message;
-                this.render(req, res);
+            if(this.wsClient.connected == false) {
+                this.wsClient.connect(() => {
+                    this.render(req, res);
+                });
+            }
 
-                this.message = '';
-            });
+            // Disconnessione WS
+            if(this.wsClient.connected == true) {
+                this.wsClient.disconnect(() => {
+                    this.render(req, res);
+                });
+            }
+        }
+
+        if(req.body.action == 'start') {
+            // Start streaming
+            const startStreamingMessage = {
+                type: 'START_STREAMING',
+                payload: {}
+            };
+
+            this.wsClient.send(startStreamingMessage);
+            this.render(req, res);
+        }
+
+        if(req.body.action == 'stop') {
+            // Stop streaming
+            const stopStreamingMessage = {
+                type: 'STOP_STREAMING',
+                payload: {}
+            };
+
+            this.wsClient.send(stopStreamingMessage);
+            this.render(req, res);
         }
     }
 }
