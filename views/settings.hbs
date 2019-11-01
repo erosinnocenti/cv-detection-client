@@ -11,6 +11,11 @@
 
                     <label for="sendImagesEditor">Ricevi immagini dei frame</label>
                     <input type="checkbox" id="sendImagesEditor" name="sendImages" {{#if sendImages}}checked{{/if}}>
+
+                    <br/>
+
+                    <input type="text" class="form-control" id="compressionEditor" name="compression" value="{{config.compression}}">
+                    <small id="compressionHelp" class="form-text text-muted">Rapporto compressione immagini</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Salva</button>
             </div>

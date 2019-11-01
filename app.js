@@ -1,5 +1,6 @@
 import { env } from './environment/environment';
 import { MainPage } from './views/main';
+import { WSServer } from './ws-server';
 import { SettingsPage } from './views/settings';
 
 var express = require('express');
@@ -56,6 +57,10 @@ app.engine(
 
 app.set('view engine', 'hbs');
 
+// Avvio server HTTP
 app.listen(env.httpPort, function() {
-	console.log('Server started on port ' + env.httpPort);
+	console.log('HTTP server started on port ' + env.httpPort);
 });
+
+// Avvio server WebSocket
+new WSServer();

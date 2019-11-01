@@ -29,7 +29,8 @@ class SettingsPage {
         this.config.lineForbiddenArea = req.body.lineForbiddenArea;
         this.config.sendImages = req.body.sendImages == 'on';
         this.config.minDistance = new Number(req.body.minDistance);
-        
+        this.config.compression = new Number(req.body.compression);
+
         ConfigUtils.saveConfig(this.config);
 
         this.render(req, res);

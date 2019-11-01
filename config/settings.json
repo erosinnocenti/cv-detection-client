@@ -6,5 +6,6 @@
     "lineEndY": "780",
     "lineForbiddenArea": "LEFT",
     "sendImages": true,
-    "minDistance": 50
+    "minDistance": 0,
+    "compression": 20
 }

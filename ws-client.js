@@ -1,12 +1,12 @@
 import { ConfigUtils } from "./config/config-utils";
-import { env } from './environment/environment';
 import { Point } from "./utils/point";
 import { GeometryUtils } from "./utils/geometry-utils";
+import { WSServer } from "./ws-server";
 const WebSocket = require('ws');
 
-class WSClient {
-    static instance = null;
-    
+let instance = null;
+
+class WSClient {    
     client = null;
     lastError = null;
     uuid = null;
@@ -15,6 +15,8 @@ class WSClient {
     streaming = false;
     detectionsBuffer = [];
 
+    wsServer = null;
+
     line = null;
 
     constructor() {
@@ -22,15 +24,16 @@ class WSClient {
     }
 
     static getInstance() {
-        if(this.instance == null) {
-            this.instance = new WSClient();
+        if(instance == null) {
+            instance = new WSClient();
         }
 
-        return this.instance;
+        return instance;
     }
 
     connect(connectCallback) {
         this.connectCallback = connectCallback;
+        instance = this;
 
         console.log('Connecting to ' + this.config.wsUrl + '...');
         this.client = new WebSocket(this.config.wsUrl);
@@ -44,6 +47,8 @@ class WSClient {
                 this.connected = false;
             }
         });
+
+        this.wsServer = WSServer.getInstance();
 
         this.client.on('open', () => { this.open() });
         this.client.on('close', () => { this.close() });
@@ -115,6 +120,10 @@ class WSClient {
 
             // Aggiunta risultati al buffer per il client
             this.detectionsBuffer.push(dataObj.payload);
+
+            // Invio del messaggio in broadcast ai client (WebSocket) - sincrono
+            this.wsServer.broadcast(this.detectionsBuffer);
+            this.detectionsBuffer.splice(0, this.detectionsBuffer.length);
         }
     }
 

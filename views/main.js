@@ -36,13 +36,6 @@ class MainPage {
         res.render('main', params);
     }
 
-    getDetections(res, req) {
-        const detections = this.wsClient.detectionsBuffer.splice(0, this.wsClient.detectionsBuffer.length);
-
-        const result = JSON.stringify(detections);
-        res.send(result);
-    }
-
     submit(req, res) {
         if(req.body.action == 'connect') {
             // Connessione WS
@@ -65,7 +58,8 @@ class MainPage {
             const startStreamingMessage = {
                 type: 'START_STREAMING',
                 payload: {
-                    sendImages: this.config.sendImages
+                    sendImages: this.config.sendImages,
+                    compression: this.config.compression
                 }
             };
 
