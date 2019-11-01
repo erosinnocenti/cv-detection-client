@@ -3,11 +3,51 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label for="wsUrlEditor">CV Server URL</label>
+                    <label class="title-label" for="wsUrlEditor">CV Server URL</label>
                     <input type="text" class="form-control" id="wsUrlEditor" name="wsUrl" placeholder="ws://" value="{{config.wsUrl}}">
-                    <small id="wsUrlHelp" class="form-text text-muted">Inserisci l'indirizzo del web service</small>
+                    <small id="wsUrlHelp" class="form-text text-muted">Indirizzo del web service</small>
+
+                    <br/>
+
+                    <label for="sendImagesEditor">Ricevi immagini dei frame</label>
+                    <input type="checkbox" id="sendImagesEditor" name="sendImages" {{#if sendImages}}checked{{/if}}>
                 </div>
                 <button type="submit" class="btn btn-primary">Salva</button>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="title-label">Linea virtuale</label>
+                    <input type="text" class="form-control" id="lineStartXEditor" name="lineStartX" value="{{config.lineStartX}}">
+                    <small class="form-text text-muted">Punto iniziale (X)</small>
+
+                    <input type="text" class="form-control" id="lineStartYEditor" name="lineStartY" value="{{config.lineStartY}}">
+                    <small class="form-text text-muted">Punto iniziale (Y)</small>
+
+                    <hr/>
+
+                    <input type="text" class="form-control" id="lineEndXEditor" name="lineEndX" value="{{config.lineEndX}}">
+                    <small class="form-text text-muted">Punto finale (X)</small>
+
+                    <input type="text" class="form-control" id="lineEndYEditor" name="lineEndY" value="{{config.lineEndY}}">
+                    <small class="form-text text-muted">Punto finale (Y)</small>
+
+                    <hr/>
+
+                    <select class="form-control" name="lineForbiddenArea">
+                        <option {{#if left}}selected{{/if}}>LEFT</option>
+                        <option {{#if right}}selected{{/if}}>RIGHT</option>
+                        <option {{#if up}}selected{{/if}}>UP</option>
+                        <option {{#if down}}selected{{/if}}>DOWN</option>
+                    </select>
+                    <small class="form-text text-muted">La linea virtuale separa il frame in due parti, specificare la parte da segnalare</small>
+
+                    <hr/>
+
+                    <input type="text" class="form-control" id="minDistanceEditor" name="minDistance" value="{{config.minDistance}}">
+                    <small class="form-text text-muted">Distanza minima dalla linea</small>
+
+                    <hr/>
+                </div>
             </div>
         </div>
     </div>

@@ -1,15 +1,14 @@
 import { ConfigUtils } from '../config/config-utils';
 import { WSClient } from '../ws-client';
-import { env } from '../environment/environment';
 
 class MainPage {
     wsClient = WSClient.getInstance();
+    config = null;
 
     render(req, res) {
-        const config = ConfigUtils.getConfig();
+        this.config = ConfigUtils.getConfig();
 
         let message = '';
-        let connectBtnTitle = '';
         if(this.wsClient.connected == false) {
             // Client disconnesso
             message = 'Disconnesso';
@@ -25,7 +24,7 @@ class MainPage {
         const params = {
             layout: 'default',
             mainActive: 'active',
-            config: config,
+            config: this.config,
             message: message,
             streaming: this.wsClient.streaming,
             connected: this.wsClient.connected,
@@ -65,7 +64,9 @@ class MainPage {
             // Start streaming
             const startStreamingMessage = {
                 type: 'START_STREAMING',
-                payload: {}
+                payload: {
+                    sendImages: this.config.sendImages
+                }
             };
 
             this.wsClient.send(startStreamingMessage);

@@ -1,5 +1,7 @@
 import { ConfigUtils } from "./config/config-utils";
 import { env } from './environment/environment';
+import { Point } from "./utils/point";
+import { GeometryUtils } from "./utils/geometry-utils";
 const WebSocket = require('ws');
 
 class WSClient {
@@ -12,6 +14,8 @@ class WSClient {
     connected = false;
     streaming = false;
     detectionsBuffer = [];
+
+    line = null;
 
     constructor() {
         this.config = ConfigUtils.getConfig();
@@ -52,6 +56,12 @@ class WSClient {
         }
 
         if(message.type == 'START_STREAMING') {
+            this.line = {
+                start: new Point(this.config.lineStartX, this.config.lineStartY),
+                end: new Point(this.config.lineEndX, this.config.lineEndY),
+                forbiddenArea: this.config.lineForbiddenArea
+            };
+
             this.streaming = true;
         }
 
@@ -98,7 +108,63 @@ class WSClient {
 
             this.connectCallback();
         } else if(dataObj.type == 'DETECTION') {
+            // Verifica collisioni
+            for(let person of dataObj.payload.detections) {
+                this.addCalculations(person);
+            }
+
+            // Aggiunta risultati al buffer per il client
             this.detectionsBuffer.push(dataObj.payload);
+        }
+    }
+
+    addCalculations(person) {
+        const side = this.line.forbiddenArea;
+        const line = this.line;
+
+        // Conversione punti ricevuti, Yolo usa come x, y il centro del box
+        // mentre risulta più comodo avere l'angolo superiore sx per il canvas html5
+        person.box.x = person.box.x - (person.box.w / 2);
+        person.box.y = person.box.y - (person.box.h / 2);
+
+        // Calcolo punto di riferimento (centrale alla linea inferiore del box)
+        const middleLowerPoint = new Point( 
+            person.box.x + (person.box.w / 2),
+            person.box.y + person.box.h
+        );
+
+        person.refPoint = middleLowerPoint;
+
+        // Calcolo punto piu vicino della linea di riferimento
+        person.lineClosestPoint = GeometryUtils.closestPointToSegment(person.refPoint, line.start, line.end);
+
+        // Calcolo la distanza dalla linea
+        person.lineDistance = GeometryUtils.distance(person.refPoint, person.lineClosestPoint);
+
+        // Distanza minima per la segnalazione
+        const minDistance = this.config.minDistance;
+
+        switch(side) {
+            case 'LEFT':
+                if(person.refPoint.x - minDistance < person.lineClosestPoint.x) {
+                    person.alarm = true;
+                }
+            break;
+            case 'RIGHT':
+                if(person.refPoint.x + minDistance > person.lineClosestPoint.x) {
+                    person.alarm = true;
+                }
+            break;
+            case 'UP':
+                if(person.refPoint.y - minDistance < person.lineClosestPoint.y) {
+                    person.alarm = true;
+                }
+            break;
+            case 'DOWN':
+                if(person.refPoint.y + minDistance > person.lineClosestPoint.y) {
+                    person.alarm = true;
+                }
+            break;
         }
     }
 }

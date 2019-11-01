@@ -1,3 +1,10 @@
 {
-    "wsUrl": "ws://192.168.91.210:3000"
+    "wsUrl": "ws://192.168.91.210:3000",
+    "lineStartX": "600",
+    "lineStartY": "0",
+    "lineEndX": "550",
+    "lineEndY": "780",
+    "lineForbiddenArea": "LEFT",
+    "sendImages": true,
+    "minDistance": 50
 }
