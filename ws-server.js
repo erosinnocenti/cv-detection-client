@@ -6,7 +6,7 @@ let instance = null;
 
 class WSServer {
     clientStates = [];
-    config  = null;
+    config = null;
     
     constructor() {
         this.config = ConfigUtils.getConfig();

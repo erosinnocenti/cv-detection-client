@@ -1,5 +1,6 @@
 import { ConfigUtils } from '../config/config-utils';
 import { WSClient } from '../ws-client';
+import { env } from '../environment/environment';
 
 class MainPage {
     wsClient = WSClient.getInstance();
@@ -25,6 +26,7 @@ class MainPage {
             layout: 'default',
             mainActive: 'active',
             config: this.config,
+            env: env,
             message: message,
             streaming: this.wsClient.streaming,
             connected: this.wsClient.connected,
@@ -59,7 +61,8 @@ class MainPage {
                 type: 'START_STREAMING',
                 payload: {
                     sendImages: this.config.sendImages,
-                    compression: this.config.compression
+                    compression: this.config.compression,
+                    input: this.config.input
                 }
             };
 

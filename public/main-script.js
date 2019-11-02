@@ -1,5 +1,6 @@
 detectionsCount = 0;
 getDetectionsInterval = null;
+lastClickedPoint = { x: 0, y: 0};
 params = null;
 
 function toggleStreaming(connected, streaming) {
@@ -41,9 +42,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 });
 
+function getCursorPosition(e) {
+    const canvas = document.getElementById("drawCanvas");
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const aspectRatio = (canvas.width / canvas.height);
+    
+    document.getElementById('lastPoint').textContent = 'X: ' + (x * aspectRatio).toFixed(0) + ' Y: ' + (y * aspectRatio).toFixed(0);
+}
+
 function getDetectionsWs() {
-    const wsClient = new WebSocket('ws://127.0.0.1:3000');
-        
+    const url = window.location.origin.replace(params.env.httpPort, params.env.wsPort).replace('http://', 'ws://');
+    const wsClient = new WebSocket(url);
+
     wsClient.onopen = function(e) {
         console.log('WebSocket connected');
     }
@@ -55,6 +69,8 @@ function getDetectionsWs() {
 
 async function elaborateDetections(data) {
     const result = JSON.parse(data);
+
+    console.log(result);
 
     let count = 0;
     
@@ -94,7 +110,7 @@ async function elaborateDetections(data) {
 
         if (canvas.getContext) {
             const ctx = canvas.getContext('2d');
-            
+
             // Disegna l'immagine, se presente
             if(params.config.sendImages == true && lastDetectedFrame.image !== undefined) {
                 const image = new Image();

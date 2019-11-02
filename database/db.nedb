@@ -1,0 +1,4 @@
+{"hello":"world 123","n":5,"today":{"$$date":1572641341783},"nedbIsAwesome":true,"notthere":null,"fruits":["apple","orange","pear"],"infos":{"name":"nedb"},"_id":"cQs0HmsgubV1Kl2B"}
+{"hello":"world","n":5,"today":{"$$date":1572641107678},"nedbIsAwesome":true,"notthere":null,"fruits":["apple","orange","pear"],"infos":{"name":"nedb"},"_id":"rNcb5LiumLfElXGl"}
+{"hello":"world","n":5,"today":{"$$date":1572640985804},"nedbIsAwesome":true,"notthere":null,"fruits":["apple","orange","pear"],"infos":{"name":"nedb"},"_id":"skKvwtI9f7oFMFKX"}
+{"hello":"world","n":5,"today":{"$$date":1572641112194},"nedbIsAwesome":true,"notthere":null,"fruits":["apple","orange","pear"],"infos":{"name":"nedb"},"_id":"zigQyMOMCTZUA7Tx"}
