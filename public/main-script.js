@@ -1,7 +1,10 @@
 detectionsCount = 0;
+alarmsCount = 0;
 getDetectionsInterval = null;
 lastClickedPoint = { x: 0, y: 0};
 params = null;
+canvasWidth = null;
+canvasHeight = null;
 
 function toggleStreaming(connected, streaming) {
     if(connected == 'false') {
@@ -49,9 +52,10 @@ function getCursorPosition(e) {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const aspectRatio = (canvas.width / canvas.height);
+    const realX = canvas.width * x / canvasWidth;
+    const realY = canvas.height * y / canvasHeight;
     
-    document.getElementById('lastPoint').textContent = 'X: ' + (x * aspectRatio).toFixed(0) + ' Y: ' + (y * aspectRatio).toFixed(0);
+    document.getElementById('lastPoint').textContent = 'X: ' + (realX).toFixed(0) + ' Y: ' + (realY).toFixed(0);
 }
 
 function getDetectionsWs() {
@@ -73,9 +77,16 @@ async function elaborateDetections(data) {
     console.log(result);
 
     let count = 0;
+    let alarms = 0;
     
     let lastDetectedFrame = null;
     for(det of result) {
+        for(person of det.detections) {
+            if(person.alarm == true) {
+                alarms++;
+            }
+        }
+        
         count = count + det.detections.length;
         
         fps = fps + det.fps;
@@ -88,9 +99,16 @@ async function elaborateDetections(data) {
         $('#fps').text(fps.toFixed(2));
     }
 
+    if(alarms > 0) {
+        $('#detectionsCount').css("background-color", "red");    
+    } else {
+        $('#detectionsCount').css("background-color", "lime");
+    }
+
     detectionsCount = detectionsCount + count;
+    alarmsCount = alarmsCount + alarms;
     
-    $('#detectionsCount').text(detectionsCount);
+    $('#detectionsCount').text(alarmsCount + " / " + detectionsCount);
 
     // Rappresentazione grafica dell'ultimo risultato
     if(lastDetectedFrame != null) {
@@ -103,9 +121,11 @@ async function elaborateDetections(data) {
             const aspectRatio = (lastDetectedFrame.size.w / lastDetectedFrame.size.h);
 
             const maxWidth = 1000;
+            canvasWidth = maxWidth;
+            canvasHeight = (maxWidth / aspectRatio);
 
-            canvas.style.width = maxWidth + 'px';
-            canvas.style.height = (maxWidth / aspectRatio) + 'px';
+            canvas.style.width = canvasWidth + 'px';
+            canvas.style.height = canvasHeight + 'px';
         }
 
         if (canvas.getContext) {

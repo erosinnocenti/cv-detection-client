@@ -1,12 +1,12 @@
 {
     "wsUrl": "ws://192.168.91.210:3000",
     "lineStartX": "0",
-    "lineStartY": "200",
-    "lineEndX": "1500",
-    "lineEndY": "200",
-    "lineForbiddenArea": "DOWN",
+    "lineStartY": "90",
+    "lineEndX": "703",
+    "lineEndY": "720",
+    "lineForbiddenArea": "LEFT",
     "sendImages": true,
     "minDistance": 0,
-    "compression": 20,
-    "input": "data/leeds.mp4"
+    "compression": 70,
+    "input": "data/florida.mp4"
 }
