@@ -3,12 +3,14 @@ import { MainPage } from './views/main';
 import { WSServer } from './ws-server';
 import { SettingsPage } from './views/settings';
 
+var compression = require('compression');
 var express = require('express');
 var hbs = require('express-handlebars');
 var app = express();
 var router = express.Router();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(compression());
 
 const mainPage = new MainPage();
 const settingsPage = new SettingsPage();

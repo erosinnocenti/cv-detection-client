@@ -3,6 +3,7 @@ import { Point } from "./utils/point";
 import { GeometryUtils } from "./utils/geometry-utils";
 import { WSServer } from "./ws-server";
 const WebSocket = require('ws');
+const BSON = require('bson');
 
 let instance = null;
 
@@ -74,7 +75,7 @@ class WSClient {
             this.streaming = false;
         }
 
-        const strMessage = JSON.stringify(message);
+        const strMessage = BSON.serialize(message);
         console.log('Sending: ' + strMessage);
         
         this.client.send(strMessage);
@@ -102,7 +103,7 @@ class WSClient {
     }
 
     messageReceived(data) {
-        const dataObj = JSON.parse(data);
+        const dataObj = BSON.deserialize(data);
 
         if(dataObj.type == 'UUID_ASSIGN') {
             console.log(data);    

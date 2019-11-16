@@ -74,8 +74,6 @@ function getDetectionsWs() {
 async function elaborateDetections(data) {
     const result = JSON.parse(data);
 
-    console.log(result);
-
     let count = 0;
     let alarms = 0;
     

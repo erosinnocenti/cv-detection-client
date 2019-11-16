@@ -7,6 +7,6 @@
     "lineForbiddenArea": "LEFT",
     "sendImages": true,
     "minDistance": 0,
-    "compression": 70,
+    "compression": 50,
     "input": "data/florida.mp4"
 }
