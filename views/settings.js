@@ -30,6 +30,8 @@ class SettingsPage {
         this.config.sendImages = req.body.sendImages == 'on';
         this.config.minDistance = new Number(req.body.minDistance);
         this.config.compression = new Number(req.body.compression);
+        this.config.maxSize = new Number(req.body.maxSize);
+        this.config.minProb = new Number(req.body.minProb);
         this.config.input = req.body.input;
 
         ConfigUtils.saveConfig(this.config);

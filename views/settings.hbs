@@ -9,7 +9,15 @@
 
                     <br/>
 
-                    <label for="sendImagesEditor">Ricevi immagini dei frame</label>
+                    <input type="text" class="form-control" id="inputEditor" name="input" value="{{config.input}}">
+                    <small id="inputHelp" class="form-text text-muted">Stream di input</small>
+
+                    </br>
+                    
+                    <label class="title-label" for="wsUrlEditor">Anteprima stream</label>
+                    </br>
+                    
+                    <label for="sendImagesEditor">Ricevi anteprima stream</label>
                     <input type="checkbox" id="sendImagesEditor" name="sendImages" {{#if sendImages}}checked{{/if}}>
 
                     <br/>
@@ -19,8 +27,16 @@
                     
                     <br/>
 
-                    <input type="text" class="form-control" id="inputEditor" name="input" value="{{config.input}}">
-                    <small id="inputHelp" class="form-text text-muted">Stream di input</small>                    
+                    <input type="text" class="form-control" id="maxSizeEditor" name="maxSize" value="{{config.maxSize}}">
+                    <small id="maxSizeHelp" class="form-text text-muted">Massima dimensione immagine</small>
+                    
+                    <br/>
+
+                    <label class="title-label" for="wsUrlEditor">Varie</label>
+                    
+                    <input type="text" class="form-control" id="minProbEditor" name="minProb" value="{{config.minProb}}">
+                    <small id="minProbHelp" class="form-text text-muted">Probabilità minima per accettare un risultato</small>
+                    
                 </div>
                 <button type="submit" class="btn btn-primary">Salva</button>
             </div>

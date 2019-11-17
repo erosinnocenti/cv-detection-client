@@ -62,6 +62,8 @@ class MainPage {
                 payload: {
                     sendImages: this.config.sendImages,
                     compression: this.config.compression,
+                    maxSize: this.config.maxSize,
+                    minProb: this.config.minProb,
                     input: this.config.input
                 }
             };

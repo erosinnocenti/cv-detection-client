@@ -8,5 +8,7 @@
     "sendImages": true,
     "minDistance": 0,
     "compression": 50,
+    "maxSize": 640,
+    "minProb": 0.6,
     "input": "data/florida.mp4"
 }
