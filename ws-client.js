@@ -2,9 +2,16 @@ import { ConfigUtils } from "./config/config-utils";
 import { Point } from "./utils/point";
 import { GeometryUtils } from "./utils/geometry-utils";
 import { WSServer } from "./ws-server";
+import { DBService } from "./db-service";
 const WebSocket = require('ws');
 
 let instance = null;
+
+const lastState = {
+    alarm: false,
+    safePeopleCount: 0,
+    unsafePeopleCount: 0
+}
 
 class WSClient {    
     client = null;
@@ -114,10 +121,51 @@ class WSClient {
             this.connectCallback();
         } else if(dataObj.type == 'DETECTION') {
         
+            let alarm = false;
+            let safePeopleCount = 0;
+            let unsafePeopleCount = 0;
+
             // Verifica collisioni
             for(let person of dataObj.payload.detections) {
                 this.addCalculations(person);
+
+                if(person.alarm) {
+                    alarm = true;
+                    unsafePeopleCount++;
+                } else {
+                    safePeopleCount++;
+                }
             }
+
+            // Lo stato è cambiato da normale ad allarme
+            if(!lastState.alarm && alarm) {
+                // TODO: azionare attuatore
+                console.log('Stato allarme');
+            }
+
+            // Lo stato è cambiato da allarme a normale
+            if(lastState.alarm && !alarm) {
+                // TODO: spegnere attuatore
+                console.log('Stato non in allarme')
+            }
+
+            // Stato di allarme cambiato
+            if(lastState.alarm != alarm) {
+               var event = { 
+                   date: new Date(),
+                   people: (safePeopleCount + unsafePeopleCount),
+                   safePeople: safePeopleCount,
+                   unsafePeople: unsafePeopleCount,
+                   alarm: alarm,
+                };
+
+                DBService.getInstance().addEvent(event);
+            }
+
+            // Reimpostazione lastState
+            lastState.alarm = alarm;
+            lastState.safePeopleCount = safePeopleCount;
+            lastState.unsafePeopleCount = unsafePeopleCount;
 
             // Aggiunta risultati al buffer per il client
             this.detectionsBuffer.push(dataObj.payload);
@@ -176,6 +224,8 @@ class WSClient {
                 }
             break;
         }
+
+        
     }
 }
 

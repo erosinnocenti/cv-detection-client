@@ -1,0 +1,38 @@
+<div class="container bd">
+    <div class="row">
+        <div class="col">
+            <h5>Event log</h5>
+            <h6>One event is recorded every time the alarm state changes</h6>
+            <br/>
+
+            <form method="POST" style="text-align: right">
+                <button type="submit" class="btn btn-primary">Clear log</button>
+            </form>
+            
+            <br/>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">People Count</th>
+                        <th scope="col">Safe</th>
+                        <th scope="col">Unsafe</th>
+                        <th scope="col">Alarm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each events}}
+                        <tr>
+                            <td>{{moment this.date format="YYYY-MM-DD HH:mm:ss"}}</td>
+                            <td>{{this.people}}</td>
+                            <td>{{this.safePeople}}</td>
+                            <td>{{this.unsafePeople}}</td>
+                            <td>{{this.alarm}}</td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

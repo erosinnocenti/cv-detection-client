@@ -2,10 +2,12 @@ import { env } from './environment/environment';
 import { MainPage } from './views/main';
 import { WSServer } from './ws-server';
 import { SettingsPage } from './views/settings';
+import { EventsPage } from './views/events';
 
 var compression = require('compression');
 var express = require('express');
 var hbs = require('express-handlebars');
+var helpers = require('handlebars-helpers')();
 var app = express();
 var router = express.Router();
 
@@ -14,6 +16,7 @@ app.use(compression());
 
 const mainPage = new MainPage();
 const settingsPage = new SettingsPage();
+const eventsPage = new EventsPage();
 
 router.use(function(req, res, next) {
 	console.log('/' + req.method);
@@ -37,8 +40,11 @@ router.post('/settings', function(req, res) {
     settingsPage.submit(req, res);
 });
 
-router.get('/about', function(req, res) {
-	res.render('about', { layout: 'default', aboutActive: 'active' });
+router.get('/events', function(req, res) {
+	eventsPage.render(req, res);
+});
+router.post('/events', function(req, res) {
+    eventsPage.submit(req, res);
 });
 
 app.use('/', router);
@@ -51,7 +57,7 @@ app.engine(
 	'hbs',
 	hbs({
 		extname: 'hbs',
-		defaultLayout: 'main',
+		defaultLayout: 'default',
 		layoutsDir: __dirname + '/views/layouts/',
 		partialsDir: __dirname + '/views/partials/'
 	})

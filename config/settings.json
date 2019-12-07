@@ -5,7 +5,7 @@
     "lineEndX": "703",
     "lineEndY": "720",
     "lineForbiddenArea": "LEFT",
-    "sendImages": true,
+    "sendImages": false,
     "minDistance": 0,
     "compression": 50,
     "maxSize": 640,

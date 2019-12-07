@@ -23,7 +23,10 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
+    "handlebars-helpers": "^0.10.0",
+    "moment": "^2.24.0",
     "nedb": "^1.8.0",
+    "nedb-promise": "^2.0.1",
     "nodemon": "^1.19.4",
     "utf-8-validate": "^5.0.2",
     "ws": "^7.2.0"

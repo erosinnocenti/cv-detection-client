@@ -5,57 +5,57 @@
                 <div class="form-group">
                     <label class="title-label" for="wsUrlEditor">CV Server URL</label>
                     <input type="text" class="form-control" id="wsUrlEditor" name="wsUrl" placeholder="ws://" value="{{config.wsUrl}}">
-                    <small id="wsUrlHelp" class="form-text text-muted">Indirizzo del web service</small>
+                    <small id="wsUrlHelp" class="form-text text-muted">Web service URL</small>
 
                     <br/>
 
                     <input type="text" class="form-control" id="inputEditor" name="input" value="{{config.input}}">
-                    <small id="inputHelp" class="form-text text-muted">Stream di input</small>
+                    <small id="inputHelp" class="form-text text-muted">Input stream</small>
 
                     </br>
                     
-                    <label class="title-label" for="wsUrlEditor">Anteprima stream</label>
+                    <label class="title-label" for="wsUrlEditor">Stream preview</label>
                     </br>
                     
-                    <label for="sendImagesEditor">Ricevi anteprima stream</label>
+                    <label for="sendImagesEditor">Receive images from server</label>
                     <input type="checkbox" id="sendImagesEditor" name="sendImages" {{#if sendImages}}checked{{/if}}>
 
                     <br/>
 
                     <input type="text" class="form-control" id="compressionEditor" name="compression" value="{{config.compression}}">
-                    <small id="compressionHelp" class="form-text text-muted">Rapporto compressione immagini</small>
+                    <small id="compressionHelp" class="form-text text-muted">Image compression ratio</small>
                     
                     <br/>
 
                     <input type="text" class="form-control" id="maxSizeEditor" name="maxSize" value="{{config.maxSize}}">
-                    <small id="maxSizeHelp" class="form-text text-muted">Massima dimensione immagine</small>
+                    <small id="maxSizeHelp" class="form-text text-muted">Image max size</small>
                     
                     <br/>
 
-                    <label class="title-label" for="wsUrlEditor">Varie</label>
+                    <label class="title-label" for="wsUrlEditor">Misc</label>
                     
                     <input type="text" class="form-control" id="minProbEditor" name="minProb" value="{{config.minProb}}">
-                    <small id="minProbHelp" class="form-text text-muted">Probabilità minima per accettare un risultato</small>
+                    <small id="minProbHelp" class="form-text text-muted">Minimum probability</small>
                     
                 </div>
-                <button type="submit" class="btn btn-primary">Salva</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label class="title-label">Linea virtuale</label>
+                    <label class="title-label">Virtual line</label>
                     <input type="text" class="form-control" id="lineStartXEditor" name="lineStartX" value="{{config.lineStartX}}">
-                    <small class="form-text text-muted">Punto iniziale (X)</small>
+                    <small class="form-text text-muted">Start point (X)</small>
 
                     <input type="text" class="form-control" id="lineStartYEditor" name="lineStartY" value="{{config.lineStartY}}">
-                    <small class="form-text text-muted">Punto iniziale (Y)</small>
+                    <small class="form-text text-muted">Start point (Y)</small>
 
                     <hr/>
 
                     <input type="text" class="form-control" id="lineEndXEditor" name="lineEndX" value="{{config.lineEndX}}">
-                    <small class="form-text text-muted">Punto finale (X)</small>
+                    <small class="form-text text-muted">End point (X)</small>
 
                     <input type="text" class="form-control" id="lineEndYEditor" name="lineEndY" value="{{config.lineEndY}}">
-                    <small class="form-text text-muted">Punto finale (Y)</small>
+                    <small class="form-text text-muted">End point (Y)</small>
 
                     <hr/>
 
@@ -65,12 +65,12 @@
                         <option {{#if up}}selected{{/if}}>UP</option>
                         <option {{#if down}}selected{{/if}}>DOWN</option>
                     </select>
-                    <small class="form-text text-muted">La linea virtuale separa il frame in due parti, specificare la parte da segnalare</small>
+                    <small class="form-text text-muted">The virtual line splits the canvas in two sides, choose the unsafe zone.</small>
 
                     <hr/>
 
                     <input type="text" class="form-control" id="minDistanceEditor" name="minDistance" value="{{config.minDistance}}">
-                    <small class="form-text text-muted">Distanza minima dalla linea</small>
+                    <small class="form-text text-muted">Minimum distance from the virtual line</small>
 
                     <hr/>
                 </div>

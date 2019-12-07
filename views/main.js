@@ -12,13 +12,13 @@ class MainPage {
         let message = '';
         if(this.wsClient.connected == false) {
             // Client disconnesso
-            message = 'Disconnesso';
+            message = 'Disconnected';
         } else {
             // Client connesso
             if(this.wsClient.uuid != null) {
-                message = 'Connesso con ID ' + this.wsClient.uuid;
+                message = 'Connected with ID ' + this.wsClient.uuid;
             } else {
-                message = 'ID non valido';
+                message = 'ID not valid';
             }
         }
 
