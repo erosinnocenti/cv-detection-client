@@ -1,5 +1,5 @@
 {
-    "wsUrl": "ws://192.168.91.210:3000",
+    "wsUrl": "ws://192.168.91.210:3001",
     "lineStartX": "0",
     "lineStartY": "90",
     "lineEndX": "703",
