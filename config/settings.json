@@ -5,10 +5,10 @@
     "lineEndX": "703",
     "lineEndY": "720",
     "lineForbiddenArea": "LEFT",
-    "sendImages": false,
+    "sendImages": true,
     "minDistance": 0,
     "compression": 50,
     "maxSize": 640,
-    "minProb": 0.6,
+    "minProb": 0,
     "input": "data/florida.mp4"
 }
