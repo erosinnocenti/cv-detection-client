@@ -7,6 +7,6 @@ CV Detection Client can optionally receive the frame image and add calculations 
 
 Below you can see an example of CV Detection Client measuring the distance from a person to a virtual reference line.
 
-[CV Detection Service video example](https://youtu.be/qKmJikW2jLw)
+[CV Detection Service video example](https://youtu.be/jU1KXHxeJuc)
 
 ![alt text](https://github.com/erosinnocenti/cv-detection-client/raw/master/wiki/sample.png "Example")
