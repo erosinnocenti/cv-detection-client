@@ -7,8 +7,8 @@
     "lineForbiddenArea": "LEFT",
     "sendImages": true,
     "minDistance": 0,
-    "compression": 50,
-    "maxSize": 640,
+    "compression": 100,
+    "maxSize": 720,
     "minProb": 0,
     "input": "data/florida.mp4"
 }
